@@ -17,7 +17,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="card bg-white p-5 shadow">
-                    <div class="display-5 fw-bold">Gym ni Bhozx Raymund</div>
+                    <div class="display-5 fw-bold">Gym ni Bhozx</div>
                     <p>A lightweight e-commerce application built with <strong>Laravel</strong>.</p>
                     @yield('content')
                 </div>
