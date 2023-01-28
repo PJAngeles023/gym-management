@@ -16,11 +16,25 @@
                 <tr>
                     <td>{{ $member->name }}</td>
                     <td>{{ $member->email }}</td>
-                    <td>{{ $member->membership_type }}</td>
+                    <td>@switch($member->membership_type)
+                        @case("student")
+                            Student
+                            @break
+                        @case("monthly")
+                            Monthly
+                            @break
+                        @case("yearly")
+                            Yearly
+                            @break
+                        @default
+                            N/A
+                        @endswitch
+                    </td>
                     <td>{{ $member->membership_expiration }}</td>
                     <td>
-                        <a href="{{ route('edit', $member->id) }}">Edit</a>
-                        <form action="{{ route('destroy', $member->id) }}" method="post">
+                        <a href="{{ route('editmembers', $member->id) }}">Edit</a>
+                        <br>
+                        <form action="{{ route('destroymembers', $member->id) }}" method="post">
                             @csrf
                             @method('delete')
                             <button type="submit">Delete</button>
@@ -50,12 +64,17 @@
 
                                 <label for="email" class="form-label">Email</label>
                                 <input type="email" class="form-control" id="email" name="email" required>
-                                
-                                <label for="membership-type" class="form-label">Membership Type</label>
-                                <input type="text" class="form-control" id="membership-type" name="membership-type" required>
-
-                                <label for="membership-expiration" class="form-label">Membership Expiration</label>
-                                <input type="date" class="form-control" id="membership-expiration" name="membership-expiration" required>
+                                <br>
+                                <label for="membership_type" class="form-label">Membership Type</label>
+                                <select id="membership_type" name="membership_type" required onchange="setExpiration()">
+                                    <option selected="Choose.."></option>
+                                    <option value="student">Student</option>
+                                    <option value="monthly">Monthly</option>
+                                       <option value="yearly">Yearly</option>
+                                </select>
+                                <br>
+                                <label for="membership_expiration" class="form-label">Membership Expiration</label>
+                                <input type="date" class="form-control" id="membership_expiration" name="membership_expiration" required>
 
                             </div>
 
@@ -69,3 +88,16 @@
             </div>
         </div>
 @endsection
+<script>
+    function setExpiration() {
+        var membershipType = document.getElementById("membership_type").value;
+        var expirationDate = document.getElementById("membership_expiration");
+        if (membershipType == "student") {
+            expirationDate.value = "2024-01-28";
+        } else if (membershipType == "monthly") {
+            expirationDate.value = "2024-02-28";
+        } else if (membershipType == "yearly") {
+            expirationDate.value = "2024-01-28";
+        }
+    }
+</script>
